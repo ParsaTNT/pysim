@@ -816,7 +816,7 @@ class SmDppHttpServer:
         if pendingNotification[0] == 'profileInstallationResult':
             profileInstallRes = pendingNotification[1]
             pird = profileInstallRes['profileInstallationResultData']
-            transactionId = b2h(pird['transactionId'])
+            transactionId = b2h(pird['transactionId']).upper()
             ss = self.rss.get(transactionId, None)
             if ss is None:
                 logger.warning(f"Unable to find session for transactionId: {transactionId}")
@@ -827,6 +827,7 @@ class SmDppHttpServer:
             # verify eUICC signature
             if not self._ecdsa_verify(ss.euicc_cert, profileInstallRes['euiccSignPIR'], pird_bin):
                 raise Exception('ECDSA signature verification failed on notification')
+            logger.info("Verified installation notification for transactionId=%s", transactionId)
             logger.debug("Profile Installation Final Result: %s", pird['finalResult'])
             # remove session state
             del self.rss[transactionId]

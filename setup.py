@@ -33,7 +33,7 @@ setup(
         "packaging",
         "smpp.pdu @ git+https://github.com/hologram-io/smpp.pdu",
         "asn1tools",
-        "smpp.twisted3 @ git+https://github.com/jookies/smpp.twisted",
+        "smpp.twisted3 ; python_version < '0'",
     ],
     scripts=[
         'pySim-prog.py',
